@@ -9,12 +9,12 @@
 ```shell
 apt update
 apt install xcaddy git libnss3 upx-ucl
-```shell
+```
 
 不能安装xcaddy的可以
 ```shell
 go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
-```shell
+```
 
 ```shell
 #下载安装go
@@ -29,7 +29,7 @@ GOOS=linux GOARCH=mipsle GOMIPS=softfloat ~/go/bin/xcaddy build \
 
 #编译出来可能体积很大 可以使用upx压缩一下
 upx --lzma --best caddy
-```shell
+```
 
 --------------------------------------------------------
 ### UI预览 ###
