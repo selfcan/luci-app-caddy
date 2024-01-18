@@ -141,7 +141,7 @@ $webdavs
 EOF
 else
 logpath="$(cat /etc/caddy/Caddyfile | grep "output file" | awk -F 'output file' '{print $2}' | tr -d '{ ')"
-[ ! -z "$logpath" ] && uci set caddy.@caddy[0].log_dir=$logpath
+[ ! -z "$logpath" ] && uci -q set caddy.@caddy[0].log_dir=$logpath
 fi
 	procd_open_instance caddy
 	procd_set_param command $PROG
