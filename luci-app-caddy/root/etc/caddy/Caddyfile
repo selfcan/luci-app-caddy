@@ -1,0 +1,32 @@
+# 此配置文件路径：/etc/caddy/Caddyfile
+  
+{ # 全局配置
+order cgi before respond # 启动 cgi 模块 # 全局配置
+order webdav before file_server # 启动 webdav 模块 # 全局配置
+admin off # 关闭 API 端口 # 全局配置
+} # 全局配置
+
+:12311 {
+ root * /mnt
+ file_server browse
+ 
+header {
+                Content-Type "text/plain; charset=utf-8"
+        }
+        
+ log {
+  output file /tmp/caddy/requests.log {
+   roll_size     1MiB
+   roll_local_time
+   roll_keep     5
+   roll_keep_for 120h
+  }
+ }
+ 
+}
+
+:12322 {
+  webdav * {
+   root /mnt
+  }
+}
