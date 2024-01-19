@@ -130,7 +130,7 @@ jobs:
           if [[ $TARGET != mips64 ]] && [[ $TARGET != mips64le ]] && [[ $TARGET != s390x ]] ;then
           cp caddy-${TARGET} caddy-${TARGET}-upx
           upx --lzma --best caddy-${TARGET}-upx
-          du -k caddy caddy-${TARGET}-upx
+          du -k caddy-${TARGET}-upx
           fi
           #sudo apt install qemu-user
           #qemu-mipsel caddy -v
