@@ -128,7 +128,7 @@ jobs:
           du -k caddy
           mv caddy caddy-${TARGET}
           if [[ $TARGET != mips64 ]] && [[ $TARGET != mips64le ]] && [[ $TARGET != s390x ]] ;then
-          cp caddy caddy-${TARGET}-upx
+          cp caddy-${TARGET} caddy-${TARGET}-upx
           upx --lzma --best caddy-${TARGET}-upx
           du -k caddy caddy-${TARGET}-upx
           fi
