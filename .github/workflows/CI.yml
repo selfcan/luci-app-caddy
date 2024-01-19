@@ -136,7 +136,7 @@ jobs:
           #qemu-mipsel caddy -v
           
           echo "build_time=$(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
-          echo "build_tag=$tag" >> $GITHUB_ENV
+          echo "tag=$(date '+%Y-%m-%d')" >> $GITHUB_ENV
       - name: 发布
         uses: softprops/action-gh-release@v1
         with:
