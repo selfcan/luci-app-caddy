@@ -22,17 +22,27 @@ o = s:option(TextValue, "caddyfile", translate("Caddyfile配置文件"),
 o.rows = 3
 o.wrap = "off"
 o:depends("cmd", "自定义")
-o.cfgvalue = function(self, section)
-    return nixio.fs.readfile("/etc/caddy/Caddyfile") or ""
-end
-o.write = function(self, section, value)
-    fs.writefile("/etc/caddy/Caddyfile", value:gsub("\r\n", "\n"))
-end
 
 o = s:option(Value, "port", translate("端口"))
 o.datatype = "and(port,min(1))"
 o.default = "12311"
 o:depends("cmd", "默认")
+
+o = s:option(Flag,"file_pass", translate("启用 认证"))
+o.datatype = "string"
+o.default = "0"
+o:depends("cmd", "默认")
+
+o = s:option(Value,"file_username", translate("用户名"))
+o.datatype = "string"
+o.default = "admin"
+o:depends("file_pass", "1")
+
+o = s:option(Value,"file_password", translate("密码"))
+o.datatype = "string"
+o.password = true
+o.default = "123456"
+o:depends("file_pass", "1")
 
 o = s:option(Flag, "log", translate("启用日志"))
 o.default = 1
@@ -53,10 +63,6 @@ o = s:option(Value, "data_dir", translate("指向路径"),
 	translate("指向一个路径，可在web界面访问你的文件，默认为 /mnt"))
 o.datatype = "string"
 o.default = "/mnt"
-o:depends("cmd", "默认")
-
-o = s:option(Flag, "ssl", translate("启用 SSL"))
-o.default = "0"
 o:depends("cmd", "默认")
 
 o = s:option(Flag, "webdav", translate("启用 webdav"))
@@ -92,9 +98,6 @@ o.default = "/mnt"
 
 o = s:option(Flag, "allow_wan", translate("允许从外网访问"))
 o.rmempty = false
-
-o = s:option(Flag, "cgi", translate("启用 cgi模块"))
-o:depends("cmd", "默认")
 
 o = s:option(Flag, "api", translate("启用 API接口"))
 o:depends("cmd", "默认")
