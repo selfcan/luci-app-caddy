@@ -44,6 +44,10 @@ o.password = true
 o.default = "123456"
 o:depends("file_pass", "1")
 
+o = s:option(Flag, "filezip", translate("启用 压缩"))
+o.default = 0
+o:depends("cmd", "默认")
+
 o = s:option(Flag, "log", translate("启用日志"))
 o.default = 1
 o:depends("cmd", "默认")
@@ -89,6 +93,10 @@ o = s:option(Value,"webdav_port", translate("webdav端口"))
 o.datatype = "and(port,min(1))"
 o.default = "12322"
 o:depends("webdav", "1")
+
+o = s:option(Flag, "webzip", translate("启用 压缩"))
+o.default = 0
+o:depends("webdav", "默认")
 
 o = s:option(Value, "webdav_data_dir", translate("webdav指向路径"),
 	translate("指向一个路径，使用webdav访问你的文件，默认为 /mnt<br>连接地址须加/dav后缀&nbsp;&nbsp;如： 192.168.1.1:12311/dav"))
