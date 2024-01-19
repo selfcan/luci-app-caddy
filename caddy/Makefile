@@ -7,7 +7,10 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=caddy
-PKG_VERSION:=$(shell curl -L -k  https://github.com/caddyserver/caddy/releases/latest | grep -o -E "v[0-9]+\.[0-9]+\.[0-9]+" | head -n 1 | cut -c 2-)
+PKG_VERSION:=$(shell curl -L -k -s https://github.com/caddyserver/caddy/releases/latest | grep 'tag_name' | cut -d\" -f4 | tr -d ' v')
+ifeq ($(PKG_VERSION),)
+    PKG_VERSION:=2.7.6
+endif
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
