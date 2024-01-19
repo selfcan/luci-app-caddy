@@ -1,5 +1,10 @@
 通过这个构建的二进制程序 不能开启webdav  会导致启动失败，而单独构建的添加了webdav模块的可以开启webdav
-
+所以最好是单独编译
+```shell
+GOOS=linux GOARCH=mipsle GOMIPS=softfloat ~/go/bin/xcaddy build \
+    --with github.com/mholt/caddy-webdav \
+    --with github.com/aksdb/caddy-cgi/v2
+```
 
 在51行添加了upx压缩用来节省体积
 ```shell
