@@ -15,12 +15,16 @@ get_config() {
 	config_get webdav_data_dir $1 webdav_data_dir "/mnt"
 	config_get log_dir $1 log_dir "/tmp/caddy/requests.log"
 	config_get caddy_file $1 caddy_file "/etc/caddy/Caddyfile"
-	config_get webdav_pass $1 webdav_pass 0
+        config_get caddyfile $1 caddyfile
+	config_get file_pass $1 file_pass 0
+	config_get file_username $1 file_username "admin"
+	config_get file_password $1 file_password "123456"
+        config_get webdav_pass $1 webdav_pass 0
 	config_get webdav_username $1 webdav_username "admin"
 	config_get webdav_password $1 webdav_password "123456"
-	config_get ssl $1 ssl 0
-	config_get cgi $1 cgi 0
 	config_get api $1 api 0
+        config_get filezip $1 filezip 0
+        config_get webzip $1 webzip 0
 	config_get allow_wan $1 allow_wan 0
 
 
@@ -70,53 +74,56 @@ start_service() {
 	   log_path="$(dirname $log_dir)"
 	   mkdir -p $log_path
 	   logs="log {
-                   output file $log_dir {
-                   roll_size     1MiB
-                   roll_local_time
-                   roll_keep     5
-                   roll_keep_for 120h
-                   }
-                   }"
+ output file $log_dir {
+ roll_size     1MiB
+ roll_local_time
+ roll_keep     5
+ roll_keep_for 120h
+  }
+}"
+	fi
+        if [ "$file_pass" -eq 1 ] ;then
+	      filepassword="$($PROG hash-password --plaintext $file_password)"
+	      filebasicauth="basicauth {
+$file_username $filepassword
+}"
 	fi
 	if [ "$webdav" -eq 1 ] ;then
 	   mkdir -p $webdav_data_dir
 	   if [ "$webdav_pass" -eq 1 ] ;then
 	      password="$($PROG hash-password --plaintext $webdav_password)"
-	      basicauth="basicauth /dav/* {
-                                     $webdav_username $password
-                             }"
+	      basicauth="basicauth {
+$webdav_username $password
+}"
 	   fi
 	   webdavs=":$webdav_port {
-	                      $basicauth
-                             webdav * {
-                             prefix /dav
-                             root $webdav_data_dir
-                               }
-                           }"
-          reder_web="order webdav before file_server # 启动 webdav 模块 # 全局配置"
+$basicauth
+webdav * {
+prefix /dav
+root $webdav_data_dir
+  }
+}"
+          orderweb="order webdav before file_server # 启动 webdav 模块"
 	fi
-	if [ "$ssl" -eq 1 ] ;then
-	   tsl="tls {
-                   protocols tls1.1 tls1.2 tls1.3
-                   }"
+	if [ "$filezip" -eq 1 ] ;then
+	   filezips="encode gzip"
 	fi
-	if [ "$cgi" -eq 1 ] ;then
-	   cgis="order cgi before respond # 启动 cgi 模块 # 全局配置"
+	if [ "$webzip" -eq 1 ] ;then
+	   webzips="encode gzip"
 	fi
 	if [ "$api" != "1" ] ;then
-	   apis="admin off # 关闭 API 端口 # 全局配置"
+	   apis="admin off # 关闭 API 端口"
 	fi
 	if [ "$allow_wan" -eq "1" ]; then
 		external_access="allow"
 	else
 		external_access="deny"
 	fi
-	if [ "$cgi" -eq 1 ] || [ "$webdav" -eq 1 ] || [ "$api" != "1" ] ;then
+	if [ "$webdav" -eq 1 ] || [ "$api" != "1" ] ;then
 	   order="{ # 全局配置
-                    $cgis 
-                    $reder_web
-                    $apis
-                   } # 全局配置"
+$orderweb
+$apis
+} "
 	fi
 	set_firewall
 	
@@ -126,6 +133,8 @@ start_service() {
 $order
 
 :$port {
+$filezips
+$filebasicauth
  root * $data_dir
  file_server browse
  
@@ -139,9 +148,13 @@ header {
 
 $webdavs
 EOF
+
+uci -q set caddy.@caddy[0].caddyfile="$(cat $caddy_file)"
+uci commit caddy
 else
-logpath="$(cat /etc/caddy/Caddyfile | grep "output file" | awk -F 'output file' '{print $2}' | tr -d '{ ')"
-[ ! -z "$logpath" ] && uci -q set caddy.@caddy[0].log_dir=$logpath
+logpat="$(uci -q get caddy.@caddy[0].caddyfile)"
+logpath="$(echo $logpat | grep "output file" | awk -F 'output file' '{print $2}' | tr -d '{ ')"
+[ ! -z "$logpath" ] && uci -q set caddy.@caddy[0].log_dir=$logpath && uci commit caddy
 fi
 	procd_open_instance caddy
 	procd_set_param command $PROG
