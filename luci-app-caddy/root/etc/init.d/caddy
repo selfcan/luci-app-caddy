@@ -54,6 +54,8 @@ start_service() {
 	config_load caddy
 	config_foreach get_config caddy
 	[ $enabled -ne 1 ] && return 1
+        log_path="$(dirname $log_dir)"
+	mkdir -p $log_path
 	if [ ! -f "$PROG" ] ;then
 	   uci -q set caddy.@caddy[0].enabled=0 
 	   uci commit caddy
@@ -71,8 +73,7 @@ start_service() {
   if [ "$cmd" = "默认" ] ;then
 	mkdir -p $data_dir 
 	if [ "$log" -eq 1 ] ;then
-	   log_path="$(dirname $log_dir)"
-	   mkdir -p $log_path
+	   
 	   logs="log {
  output file $log_dir {
  roll_size     1MiB
