@@ -155,8 +155,8 @@ else
 caddyf="$(uci -q get caddy.@caddy[0].caddyfile)"
 logpath="$(echo $caddyf | grep "output file" | awk -F 'output file' '{print $2}' | tr -d '{ ')"
 [ ! -z "$logpath" ] && uci -q set caddy.@caddy[0].log_dir=$logpath && uci commit caddy
- if [ -z "$caddyf" ] ;then
-   echo "$caddyf" >$caddy_file
+ if [ ! -z "$caddyf" ] ;then
+   echo "$caddyf" >$caddy_file 2>&1
  else
    uci -q set caddy.@caddy[0].enabled=0 
    uci commit caddy 
