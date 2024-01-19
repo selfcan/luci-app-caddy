@@ -152,9 +152,17 @@ EOF
 uci -q set caddy.@caddy[0].caddyfile="$(cat $caddy_file)"
 uci commit caddy
 else
-logpat="$(uci -q get caddy.@caddy[0].caddyfile)"
-logpath="$(echo $logpat | grep "output file" | awk -F 'output file' '{print $2}' | tr -d '{ ')"
+caddyf="$(uci -q get caddy.@caddy[0].caddyfile)"
+logpath="$(echo $caddyf | grep "output file" | awk -F 'output file' '{print $2}' | tr -d '{ ')"
 [ ! -z "$logpath" ] && uci -q set caddy.@caddy[0].log_dir=$logpath && uci commit caddy
+ if [ -z "$caddyf" ] ;then
+   echo "$caddyf" >$caddy_file
+ else
+   uci -q set caddy.@caddy[0].enabled=0 
+   uci commit caddy 
+   echo "$(TZ=UTC-8 date -R +%Y年%m月%d日\ %X) : $caddy_file 配置文件Caddyfile为空，无法启动!" >>$log_dir 2>&1
+   exit 1
+ fi
 fi
 	procd_open_instance caddy
 	procd_set_param command $PROG
