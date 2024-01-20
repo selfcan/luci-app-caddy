@@ -53,11 +53,6 @@ jobs:
             SOFT: softfloat
             ARCH: arm
             
-          - TARGET: armel
-            OS: ubuntu-latest
-            SOFT: softfloat
-            ARCH: arm
-            
           - TARGET: armv5l
             OS: ubuntu-latest
             SOFT: softfloat
@@ -71,18 +66,6 @@ jobs:
             ARCH: arm
 
           - TARGET: armv7l
-            OS: ubuntu-latest
-            SOFT: softfloat
-            ARM: 7
-            ARCH: arm
-            
-          - TARGET: armv7m
-            OS: ubuntu-latest
-            SOFT: softfloat
-            ARM: 7
-            ARCH: arm
-            
-          - TARGET: armv7r
             OS: ubuntu-latest
             SOFT: softfloat
             ARM: 7
