@@ -25,13 +25,19 @@ function caddy_status()
 	local port = tonumber(uci:get_first("caddy", "caddy", "port"))
                    e.port = (port or 12311)
 		    e.running=luci.sys.call("pidof caddy >/dev/null")==0
-	
+	local tagfile = io.open("/tmp/caddy_time", "r")
+        if tagfile then
+        local tagcontent = tagfile:read("*all")
+        tagfile:close()
+        if tagcontent and tagcontent ~= "" and luci.fs.stat("/tmp/caddy_time") then
          local command1 = io.popen("[ -f /tmp/caddy_time ] && start_time=$(cat /tmp/caddy_time) && time=$(($(date +%s)-start_time)) && day=$((time/86400)) && [ $day -eq 0 ] && day='' || day=${day}天 && time=$(date -u -d @${time} +'%H小时%M分%S秒') && echo $day $time")
                    e.caddysta = command1:read("*all")
                    command1:close()
                    if e.caddysta == "" then
                    e.caddysta = "unknown"
                    end
+	end
+        end
   
          local command2 = io.popen('test ! -z "`pidof caddy`" && (top -b -n1 | grep -E "$(pidof caddy)" 2>/dev/null | grep -v grep | awk \'{for (i=1;i<=NF;i++) {if ($i ~ /caddy/) break; else cpu=i}} END {print $cpu}\')')
                    e.caddycpu = command2:read("*all")
