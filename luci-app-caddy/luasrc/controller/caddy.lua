@@ -71,7 +71,7 @@ function caddy_status()
 end
 
 function get_log()
-	luci.http.write(luci.sys.exec("test ! -z `pidof caddy` && cat $(uci -q get caddy.@caddy[0].log_dir)"))
+	luci.http.write(luci.sys.exec("[ -s $(uci -q get caddy.@caddy[0].log_dir) ] && cat $(uci -q get caddy.@caddy[0].log_dir)"))
 end
 
 function clear_log()
