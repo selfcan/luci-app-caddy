@@ -30,8 +30,8 @@ function caddy_status()
 	local tagcontent = tagfile:read("*all")
 	tagfile:close()
 	if tagcontent and tagcontent ~= "" then
-        os.execute("start_time=$(cat /tmp/caddy_time) && time=$(($(date +%s)-start_time)) && day=$((time/86400)) && [ $day -eq 0 ] && day='' || day=${day}天 && time=$(date -u -d @${time} +'%H小时%M分%S秒') && echo $day $time > /tmp/command_output 2>&1")
-        local command_output_file = io.open("/tmp/command_output", "r")
+        os.execute("start_time=$(cat /tmp/caddy_time) && time=$(($(date +%s)-start_time)) && day=$((time/86400)) && [ $day -eq 0 ] && day='' || day=${day}天 && time=$(date -u -d @${time} +'%H小时%M分%S秒') && echo $day $time > /tmp/command_caddy 2>&1")
+        local command_output_file = io.open("/tmp/command_caddy", "r")
         if command_output_file then
             e.caddysta = command_output_file:read("*all")
             command_output_file:close()
