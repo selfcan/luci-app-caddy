@@ -35,6 +35,7 @@ jobs:
             body: |
              > ### 编译时间 ：${{ env.build_time }}
 
+              二进制程序下载地址：[caddy](https://github.com/lmq8267/caddy/releases)
               
             tag_name: ${{ env.tag }}
             files: /opt/openwrt-sdk*/bin/packages/aarch64_generic/base/*
