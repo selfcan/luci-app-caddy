@@ -165,6 +165,7 @@ logpath="$(echo $caddyf | grep "output file" | awk -F 'output file' '{print $2}'
    exit 1
  fi
 fi
+        $PROG  fmt --overwrite $caddy_file
 	procd_open_instance caddy
 	procd_set_param command $PROG
 	procd_append_param command run 
