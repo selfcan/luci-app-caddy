@@ -3,6 +3,7 @@
 项目地址：https://github.com/caddyserver/caddy
 
 没有添加caddy二进制程序，需要下载或编译对应cpu架构的二进制程序手动上传至路由器，然后填写对应的程序路径。
+caddy的大概 [命令参数](https://github.com/lmq8267/caddy/blob/main/README_caddy.md)
 
 ------------------------------------------------------
 编译的大概步骤：抄自网上的方法
