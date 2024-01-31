@@ -109,4 +109,10 @@ o.rmempty = false
 o = s:option(Flag, "api", translate("启用 API接口"))
 o:depends("cmd", "默认")
 
+o = s:option(Button, "admin_info", translate("检测配置文件"),
+	translate("验证Caddyfile配置文件是否正确，它会模拟启动caddy<br>但是并不会真的启动，会列出详细信息，以便修正配置文件"))
+
+o.rawhtml = true
+o.template = "caddy/admin_info"
+
 return m
