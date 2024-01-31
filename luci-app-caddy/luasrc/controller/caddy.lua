@@ -16,6 +16,7 @@ function index()
 	entry({"admin", "nas", "caddy", "caddy_status"}, call("caddy_status")).leaf = true
 	entry({"admin", "nas", "caddy", "get_log"}, call("get_log")).leaf = true
 	entry({"admin", "nas", "caddy", "clear_log"}, call("clear_log")).leaf = true
+        entry({"admin", "nas", "caddy", "admin_info"}, call("admin_info")).leaf = true
 end
 
 function caddy_status()
@@ -79,5 +80,12 @@ end
 
 function clear_log()
 	luci.sys.call("cat /dev/null > $(uci -q get caddy.@caddy[0].log_dir)")
+end
+
+function admin_info()
+	local validate = luci.sys.exec("$(uci -q get caddy.@caddy[0].bin_dir) validate --config /etc/caddy/Caddyfile --adapter caddyfile 2>&1")
+	
+	luci.http.prepare_content("application/json")
+	luci.http.write_json({ validate = validate })
 end
 
