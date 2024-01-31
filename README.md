@@ -42,3 +42,8 @@ upx --lzma --best caddy
 
 其他功能可以自行修改编辑配置文件
 ![](./Image/自定义启动.png)
+
+![QQ截图20240131092630](https://github.com/lmq8267/luci-app-caddy/assets/119713693/05742312-7b0f-4a71-bbc2-83fdafb96df4)
+![QQ截图20240131092717](https://github.com/lmq8267/luci-app-caddy/assets/119713693/60c57424-1a5b-4e99-9517-4fd663e13d5c)
+
+
