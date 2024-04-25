@@ -1,4 +1,12 @@
 # luci-app-caddy
+<p align="center">
+<a href="https://github.com/lmq8267/luci-app-caddy/releases"><img src="https://img.shields.io/github/downloads/lmq8267/luci-app-caddy/total">
+<a href="https://github.com/lmq8267/luci-app-caddy/graphs/contributors"><img src="https://img.shields.io/github/contributors-anon/lmq8267/luci-app-caddy">
+<a href="https://github.com/lmq8267/luci-app-caddy/releases/"><img src="https://img.shields.io/github/release/lmq8267/luci-app-caddy">
+<a href="https://github.com/lmq8267/luci-app-caddy/issues"><img src="https://img.shields.io/github/issues-raw/lmq8267/luci-app-caddy">
+<a href="https://github.com/lmq8267/luci-app-caddy/discussions"><img src="https://img.shields.io/github/discussions/lmq8267/luci-app-caddy">
+<a href="GitHub repo size"><img src="https://img.shields.io/github/repo-size/lmq8267/luci-app-caddy?color=red&style=flat-square">
+<a href="https://github.com/lmq8267/luci-app-caddy/actions?query=workflow%3ABuild"><img src="https://img.shields.io/github/actions/workflow/status/lmq8267/luci-app-caddy/build.yml?branch=main" alt="Build status">
 
 项目地址：https://github.com/caddyserver/caddy
 
