@@ -17,7 +17,7 @@ caddy的大概 [命令参数](https://github.com/lmq8267/caddy/blob/main/README_
 caddy list-modules -s
 ```
 ------------------------------------------------------
-编译的大概步骤：抄自网上的方法,也有我编译好的二进制文件[caddy](https://github.com/lmq8267/caddy/releases)
+编译的大概步骤：抄自网上的方法,也有我编译好的二进制文件[caddy](https://github.com/lmq8267/caddy/releases)    还有OpenWrt的[github.com/fuqiang03/openwrt-caddy](https://github.com/fuqiang03/openwrt-caddy)Makefile
 ```shell
 apt update
 apt install xcaddy git libnss3 upx-ucl
